@@ -16,6 +16,9 @@ MEMORY = (
     "world fit inside a humming beige box."
 )
 
+# The bounty entry is one sentence of exactly this length.
+EXPECTED_CHARS = 169
+
 
 def childhood_memory():
     """Return the one-line childhood memory."""
@@ -25,10 +28,15 @@ def childhood_memory():
 def main(argv=None):
     """Print the memory, or its character count with --chars."""
     args = list(sys.argv[1:] if argv is None else argv)
+    memory = childhood_memory()
+    if len(memory) != EXPECTED_CHARS:
+        raise SystemExit(f"entry must be {EXPECTED_CHARS} chars, got {len(memory)}")
+    if memory.count(".") != 1 or not memory.endswith("."):
+        raise SystemExit("entry must be exactly one sentence")
     if "--chars" in args:
-        print(len(childhood_memory()))
+        print(len(memory))
         return 0
-    print(childhood_memory())
+    print(memory)
     return 0
 
 
